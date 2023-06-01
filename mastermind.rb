@@ -18,13 +18,29 @@ class Code
   end
 end
 
-# Class Board returns a guess's key pegs
-class Board
-  attr_accessor :key_pegs
+# Class BlackPegs returns the number of guess pegs that are in correct positions and are correct colors
+class BlackPegs
+  attr_accessor :number
 
-  def initialize
-    @key_pegs = []
+  def initialize(guess)
+    @number = 0
+    @guess = guess
   end
+
+  def count
+end
+
+# Class WhitePegs returns the number of unused guess pegs that are of the correct colors only
+class WhitePegs
+  attr_accessor :number
+
+  def initialize(guess)
+    @number = 0
+    @guess = guess
+  end
+
+  def count
+
 end
 
 # Class Guess generates a guess depending on the guesser
@@ -45,5 +61,3 @@ class Guess
     end
   end
 end
-
-code = Code.new(:computer)
