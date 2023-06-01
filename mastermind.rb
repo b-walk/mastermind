@@ -18,8 +18,8 @@ class Code
   end
 end
 
-# Class BlackPegs returns the number of guess pegs that are in correct positions and are correct colors
-class BlackPegs
+# Class BlackKeyPegs returns the number of guess pegs that are in correct positions and are correct colors
+class BlackKeyPegs
   attr_accessor :number
 
   def initialize(guess)
@@ -30,8 +30,8 @@ class BlackPegs
   def count
 end
 
-# Class WhitePegs returns the number of unused guess pegs that are of the correct colors only
-class WhitePegs
+# Class WhiteKeyPegs returns the number of unused guess pegs that are of the correct colors only
+class WhiteKeyPegs
   attr_accessor :number
 
   def initialize(guess)
