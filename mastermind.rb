@@ -1,63 +1,41 @@
-# Class Code generates a code sequence depending on an owner
+# Peg objects store the used/unused statuses of pegs as well as their colors
+class Peg
+  attr_accessor :color, :status
+
+  def initialize(color)
+    @color = color
+    @status = :unused
+  end
+end
+
+# Code objects generate a code sequence depending on an owner
 class Code
+
+  COLORS = %i[red blue green yellow orange pink]
+  
   def initialize(owner)
     @owner = owner
   end
 
-  def generate
-    case @owner
-    when :human
-      puts "Type in your code:"
-      gets.chomp.downcase.split(' ')
-    when :computer
-      puts "The computer has generated a code."
-      Array.new(4).map { |_chr| %w[red green blue orange yellow pink].sample }
-    else
-      puts "error"
+  def random
+    puts "The computer has generated a code."
+    Array.new(4).map { |_peg| Peg.new(COLORS.sample)}
+  end
+
+  def create
+    Array.new(4).map.with_index do |peg, position|
+      puts "Enter peg no. #{position + 1}:"
+      Peg.new(gets.chomp.downcase.to_sym)
     end
   end
 end
 
-# Class BlackKeyPegs returns the number of guess pegs that are in correct positions and are correct colors
-class BlackKeyPegs
-  attr_accessor :number
-
-  def initialize(guess)
-    @number = 0
-    @guess = guess
-  end
-
-  def count
-end
-
-# Class WhiteKeyPegs returns the number of unused guess pegs that are of the correct colors only
-class WhiteKeyPegs
-  attr_accessor :number
-
-  def initialize(guess)
-    @number = 0
-    @guess = guess
-  end
-
-  def count
-
-end
-
-# Class Guess generates a guess depending on the guesser
+# Guess objects generate a guess depending on an owner
 class Guess
-  def initialize(guesser)
-    @guesser = guesser
-  end
-
-  def get
-    case @guesser
-    when :human
-      puts "Enter your guess:"
-      gets.chomp.downcase.split(' ')
-    when :computer
-      # GUESSING ALGORITHM HERE
-    else
-      puts "error"
-    end
+  def initialize(owner)
+    @owner = owner
   end
 end
+
+code = Code.new(:human).create
+print code
