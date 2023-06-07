@@ -8,7 +8,7 @@ class Peg
   end
 end
 
-# Sequence objects generate code and guess sequences
+# Sequence objects provide a template for Guess and Code objects
 class Sequence
   attr_reader :owner
 
@@ -20,15 +20,7 @@ class Sequence
   end
 
   def pegs
-    @pegs.each { |peg| print "#{peg.color} " }
-  end
-end
-
-class Code < Sequence
-  attr_accessor :cracked
-
-  def computer
-    @pegs.map! { |peg| peg.color = COLORS.sample}
+    @pegs.each { |peg| print "#{peg} " }
   end
 
   def human
@@ -38,7 +30,29 @@ class Code < Sequence
       peg.color = gets.chomp.downcase.to_sym
     end
   end
+
+  def computer
+    @pegs.map! { |peg| peg.color = COLORS.sample}
+  end
 end
 
-code = Code.new(:computer)
-code.pegs
+class Code < Sequence
+  attr_accessor :cracked
+
+  def initialize(owner)
+    super(owner)
+    @cracked = false
+  end
+
+  def human
+    puts "Enter the code:"
+    super
+  end
+end
+
+class Guess < Sequence
+  def human
+    puts "Guess the code:"
+    super
+  end
+end
