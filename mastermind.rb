@@ -12,8 +12,8 @@ end
 class Sequence
   attr_reader :owner
 
-  COLORS = %i[red blue green yellow orange pink]
-  
+  COLORS = %i[red blue green yellow orange pink].freeze
+
   def initialize(owner)
     @owner = owner
     @pegs = Array.new(4, Peg.new)
@@ -24,18 +24,19 @@ class Sequence
   end
 
   def human
-    puts "Four pegs are required. Valid colors include red, blue, green, yellow, orange, and pink."
+    puts 'Four pegs are required. Valid colors include red, blue, green, yellow, orange, and pink.'
     @pegs.map! do |peg|
-      puts "Enter a color:"
+      puts 'Enter a color:'
       peg.color = gets.chomp.downcase.to_sym
     end
   end
 
   def computer
-    @pegs.map! { |peg| peg.color = COLORS.sample}
+    @pegs.map! { |peg| peg.color = COLORS.sample }
   end
 end
 
+# Code objects are created each game to simulate code sequences
 class Code < Sequence
   attr_accessor :cracked
 
@@ -45,14 +46,15 @@ class Code < Sequence
   end
 
   def human
-    puts "Enter the code:"
+    puts 'Enter the code:'
     super
   end
 end
 
+# Guess objects are created each round to simulate guess sequences
 class Guess < Sequence
   def human
-    puts "Guess the code:"
+    puts 'Guess the code:'
     super
   end
 end
