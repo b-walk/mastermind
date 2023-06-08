@@ -1,4 +1,4 @@
-# Peg objects store the used/unused statuses of pegs as well as their colors
+# PEG objects COLOR AND USE STATUSES FOR INDIVIDUAL PEGS OF A SEQUENCE
 class Peg
   attr_accessor :color, :status
 
@@ -8,8 +8,10 @@ class Peg
   end
 end
 
-# Sequence objects provide a template for Guess and Code objects
+# SEQUENCE objects are TEMPLATES FOR GUESSES/CODES
 class Sequence
+  attr_accessor :owner
+  
   COLORS = %i[red blue green yellow orange pink].freeze
 
   def initialize(owner)
@@ -34,7 +36,7 @@ class Sequence
   end
 end
 
-# Code objects are created each game to simulate code sequences
+# CODE objects are responsible for GENERATING CODES EACH GAME
 class Code < Sequence
   attr_accessor :cracked
 
@@ -49,7 +51,7 @@ class Code < Sequence
   end
 end
 
-# Guess objects are created each round to simulate guess sequences
+# GUESS objects are responsible for GENERATING GUESSES EACH ROUND
 class Guess < Sequence
   def human
     puts 'Guess the code:'
@@ -57,7 +59,22 @@ class Guess < Sequence
   end
 end
 
-# Game objects are responsible for generating sequences, comparing them each round, and declaring a winner
+# ROUND objects are responsible for COMPARING CODE AND GUESS SEQUENCES/ PASSING KEY PEGS TO GAME
+class Round
+  attr_reader :key_pegs
+
+  def initialize(code, guess)
+    @code = code
+    @guess = guess
+    @key_pegs = []
+  end
+
+  def play
+
+  end
+end
+
+# GAME objects are responsible for GENERATING CODE SEQUENCES/REPEATING ROUNDS
 class Game
   attr_accessor :code, :maker, :breaker
 
@@ -70,6 +87,7 @@ class Game
   def play
     12.times do
       guess = Guess.new
+
     end
   end
 end
