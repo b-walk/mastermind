@@ -58,3 +58,10 @@ class Guess < Sequence
     super
   end
 end
+
+# Game objects are responsible for generating sequences, comparing them each round, and declaring a winner
+class Game
+  def initialize(code)
+    @code = code
+  end
+end
