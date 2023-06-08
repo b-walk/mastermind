@@ -10,8 +10,6 @@ end
 
 # Sequence objects provide a template for Guess and Code objects
 class Sequence
-  attr_reader :owner
-
   COLORS = %i[red blue green yellow orange pink].freeze
 
   def initialize(owner)
@@ -61,7 +59,17 @@ end
 
 # Game objects are responsible for generating sequences, comparing them each round, and declaring a winner
 class Game
-  def initialize(code)
+  attr_accessor :code, :maker, :breaker
+
+  def initialize(code, maker, breaker)
     @code = code
+    @maker = maker
+    @breaker = breaker
+  end
+
+  def play
+    12.times do
+      guess = Guess.new
+    end
   end
 end
