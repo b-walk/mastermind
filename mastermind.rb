@@ -33,8 +33,6 @@ end
 
 # CODE objects are responsible for GENERATING CODES EACH GAME
 class Code < Sequence
-  attr_accessor :owner
-
   def human
     puts 'Enter the code:'
     super
@@ -60,11 +58,17 @@ class Round
   end
 
   def play
+    reset_statuses
     black_pegs
     white_pegs
   end
 
   private
+
+  def reset_statuses
+    @guess.each { |peg| peg.status = :unused }
+    @code.each { |peg| peg.status = :unused }
+  end
 
   def black_pegs
     @guess.each_with_index do |peg, position|
@@ -93,43 +97,44 @@ end
 
 # GAME objects are responsible for GENERATING CODE SEQUENCES/REPEATING ROUNDS
 class Game
-  attr_accessor :code, :winner, :breaker
+  attr_accessor :code, :winner, :breaker, :maker
 
   def initialize
     @code = Code.new
     case get_player_role
     when :maker
-      @code.owner = :human
+      @maker, @breaker = :human, :computer
       @code.human
     when :breaker
-      @code.owner = :computer
+      @maker, @breaker = :computer, :human
       @code.computer
     end
+    play
   end
+
+  private
 
   def play
     12.times do
       round = Round.new(@code.pegs, guess.pegs)
       round.play
       if round.key_pegs == [:black, :black, :black, :black]
-        @winner = :
-
-  def play_round
-    print @code.pegs #TESTING
-    round = Round.new(@code.pegs, guess.pegs)
-    round.play
-    print round.key_pegs
+        @winner = :breaker
+      end
+      break if @winner != nil
+      print "#{round.key_pegs.to_s}\n"
+    end
+    @winner ||= :maker
+    print "The #{@winner} has won! The code was #{@code}."
   end
-
-  private
 
   def guess
     guess = Guess.new
-    case @code.owner
+    case @breaker
     when :human
-      guess.computer
-    when :computer
       guess.human
+    when :computer
+      guess.computer
     end
     guess
   end
@@ -141,4 +146,3 @@ class Game
 end
 
 game = Game.new
-game.play_round
