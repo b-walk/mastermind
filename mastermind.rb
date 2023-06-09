@@ -1,3 +1,5 @@
+require_relative 'modules'
+
 # PEG objects COLOR AND USE STATUSES FOR INDIVIDUAL PEGS OF A SEQUENCE
 class Peg
   attr_accessor :color, :status
@@ -10,17 +12,12 @@ end
 
 # SEQUENCE objects are TEMPLATES FOR GUESSES/CODES
 class Sequence
-  attr_accessor :owner
-  
+  attr_accessor :pegs
+
   COLORS = %i[red blue green yellow orange pink].freeze
 
-  def initialize(owner)
-    @owner = owner
+  def initialize
     @pegs = Array.new(4, Peg.new)
-  end
-
-  def pegs
-    @pegs.each { |peg| print "#{peg} " }
   end
 
   def human
@@ -38,13 +35,6 @@ end
 
 # CODE objects are responsible for GENERATING CODES EACH GAME
 class Code < Sequence
-  attr_accessor :cracked
-
-  def initialize(owner)
-    super(owner)
-    @cracked = false
-  end
-
   def human
     puts 'Enter the code:'
     super
@@ -68,26 +58,18 @@ class Round
     @guess = guess
     @key_pegs = []
   end
-
-  def play
-
-  end
 end
 
 # GAME objects are responsible for GENERATING CODE SEQUENCES/REPEATING ROUNDS
 class Game
-  attr_accessor :code, :maker, :breaker
+  attr_accessor :code, :winner, :player_role
 
-  def initialize(code, maker, breaker)
-    @code = code
-    @maker = maker
-    @breaker = breaker
+  def initialize
+    @player_role = get_player_role
   end
 
-  def play
-    12.times do
-      guess = Guess.new
+  private
 
-    end
+  def get_player_role
   end
 end
